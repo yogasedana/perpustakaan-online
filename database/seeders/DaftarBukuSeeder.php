@@ -16,13 +16,6 @@ class DaftarBukuSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 0; $i < 20; $i++) {
-            DB::table('daftar_bukus')->insert([
-                'judul_buku' => fake()->title(),
-                'deskripsi' => fake()->paragraph(2, true),
-                'kategori' => fake()->sentence(),
-                'penulis' => fake()->sentence(),
-            ]);
-        }
+        DaftarBuku::factory()->count(50)->create();
     }
 }
