@@ -7,6 +7,8 @@ use App\Models\DaftarBuku;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use function Termwind\render;
+
 class DaftarBukuController extends Controller
 {
     /**
@@ -14,24 +16,28 @@ class DaftarBukuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $DaftarBuku = new DaftarBukuCollection(DaftarBuku::paginate(8));
-        return inertia::render('Homepage', [
-            'title' => 'Perpustakaan Online',
-            'desc'  => 'Selamat datang',
-            'daftarBuku'  => $DaftarBuku,
-        ]);
-    }
+        public function index()
+        {
+            $daftarBuku = new DaftarBukuCollection(DaftarBuku::OrderByDesc('id')->paginate(8));
+            return inertia::render('Homepage', [
+                'title' => 'Perpustakaan Online',
+                'desc'  => 'Selamat datang',
+                'daftarBuku'  => $daftarBuku,
+            ]);
+        }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(DaftarBuku $daftarBuku, Request $request)
     {
-        //
+        $tampilBuku = $daftarBuku::where('pembuat', auth()->user()->role)->get();
+        return inertia::render('TambahDaftarBuku', [
+            'title' => 'Tambah Buku',
+            'daftarBukuSaya'  => $tampilBuku,
+        ]);
     }
 
     /**
@@ -42,7 +48,14 @@ class DaftarBukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $simpanBuku = new DaftarBuku;
+        $simpanBuku->judul_buku = $request->judul_buku;
+        $simpanBuku->deskripsi = $request->deskripsi;
+        $simpanBuku->kategori = $request->kategori;
+        $simpanBuku->penulis = $request->penulis;
+        $simpanBuku->pembuat = auth()->user()->role;
+        $simpanBuku->save();
+        return redirect()->back()->with('message', 'Buku berhasil disimpan');
     }
 
     /**
@@ -53,7 +66,10 @@ class DaftarBukuController extends Controller
      */
     public function show(DaftarBuku $daftarBuku)
     {
-        //
+        $tampilBuku = $daftarBuku::where('pembuat', auth()->user()->role)->get();
+        return inertia::render('Dashboard', [
+            'daftarBukuSaya'  => $tampilBuku,
+        ]);
     }
 
     /**
@@ -62,9 +78,11 @@ class DaftarBukuController extends Controller
      * @param  \App\Models\DaftarBuku  $daftarBuku
      * @return \Illuminate\Http\Response
      */
-    public function edit(DaftarBuku $daftarBuku)
+    public function edit(DaftarBuku $daftarBuku, Request $request)
     {
-        //
+        return Inertia::render('EditDaftarBuku', [
+            'daftarBukuSaya' => $daftarBuku->find($request->id),
+        ]);
     }
 
     /**
@@ -76,7 +94,13 @@ class DaftarBukuController extends Controller
      */
     public function update(Request $request, DaftarBuku $daftarBuku)
     {
-        //
+        DaftarBuku::where('id', $request->id)->update([
+            'Judul_buku' => $request->judul_buku,
+            'deskripsi' => $request->deskripsi,
+            'kategori' => $request->kategori,
+            'penulis' => $request->penulis,
+        ]);
+        return to_route('dashboard')->with('message', 'Data buku berhasil diperbaharui!!!');
     }
 
     /**
@@ -85,8 +109,10 @@ class DaftarBukuController extends Controller
      * @param  \App\Models\DaftarBuku  $daftarBuku
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DaftarBuku $daftarBuku)
+    public function destroy(Request $request)
     {
-        //
+        $data = DaftarBuku::find($request->id);
+        $data->delete();
+        return redirect()->back()->with('message', 'Buku berhasil dihapus');
     }
 }

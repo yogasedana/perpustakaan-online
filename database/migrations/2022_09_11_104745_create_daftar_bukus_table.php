@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('deskripsi');
             $table->string('kategori');
             $table->string('penulis');
+            $table->string('pembuat');
             $table->timestamps();
         });
     }
