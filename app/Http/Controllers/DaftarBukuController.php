@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DaftarBukuCollection;
 use App\Models\DaftarBuku;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,7 @@ class DaftarBukuController extends Controller
      */
     public function index()
     {
-        $DaftarBuku = DaftarBuku::all();
+        $DaftarBuku = new DaftarBukuCollection(DaftarBuku::paginate(8));
         return inertia::render('Homepage', [
             'title' => 'Perpustakaan Online',
             'desc'  => 'Selamat datang',

@@ -1,23 +1,20 @@
-import React from 'react';
-import { Link, Head } from '@inertiajs/inertia-react';
+import React from "react";
+import { Link, Head } from "@inertiajs/inertia-react";
+import Navbar from "@/Components/Navbar";
+import ListDaftarBuku from "@/Components/Homepage/ListDaftarBuku";
+import Paginator from "@/Components/Homepage/Paginator";
 
-export default function Homepage(props) { 
-    console.log(props);
+export default function Homepage(props) {
     return (
-        <div className="flex justify-center items-center min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-slate-50">
             <Head title={props.title} />
-            <div>
-                {props.daftarBuku ? props.daftarBuku.map((data, i) => {
-                    return (
-                        <div key={i} className='p-4 m-2 bg-white text-black shadow-md rounded-md'>
-                            <p className='text-2xl'>{data.judul_buku}</p>
-                            <i className='text-sm'>{data.kategori}</i>
-                            <p>{data.deskripsi}</p>
-                            <i className='text-base'>{data.penulis}</i>
-                        </div>
-                    );
-                }) : <p>Daftra buku tidak ditemukan</p>}
+            <Navbar />
+            <div className="flex justify-center flrx-col lg:flex-row flex-wrap lg:items-stretch items-center gap-4 p-4">
+                <ListDaftarBuku data={props.daftarBuku.data} />
+            </div>
+            <div className="flex justify-center items-center">
+                <Paginator meta={props.daftarBuku.meta} />
             </div>
         </div>
-    )
+    );
 }
