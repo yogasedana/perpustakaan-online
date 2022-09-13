@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('kategori');
             $table->string('penulis');
             $table->string('pembuat');
+            $table->string('image');
             $table->timestamps();
         });
     }

@@ -48,12 +48,24 @@ class DaftarBukuController extends Controller
      */
     public function store(Request $request)
     {
+        // $this->validate($request, [
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,svg',
+        // ]);
+
+        $fileImage = $request->file('image');
+    
+        $folder = '/images';
+
+        // $itemGambar = $this->upload($fileImage, $folder);
+
         $simpanBuku = new DaftarBuku;
         $simpanBuku->judul_buku = $request->judul_buku;
         $simpanBuku->deskripsi = $request->deskripsi;
         $simpanBuku->kategori = $request->kategori;
         $simpanBuku->penulis = $request->penulis;
         $simpanBuku->pembuat = auth()->user()->role;
+        // $simpanBuku->image = $fileImage->all();
+        $simpanBuku->image = "";
         $simpanBuku->save();
         return redirect()->back()->with('message', 'Buku berhasil disimpan');
     }
@@ -114,5 +126,12 @@ class DaftarBukuController extends Controller
         $data = DaftarBuku::find($request->id);
         $data->delete();
         return redirect()->back()->with('message', 'Buku berhasil dihapus');
+    }
+
+    public function upload($fileImage, $folder)
+    {
+        // $path = $fileImage->store($folder);
+        // $inputGambar['url'] = $path;
+        // return DaftarBuku::create($fileImage);
     }
 }

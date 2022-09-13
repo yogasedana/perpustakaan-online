@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useForm } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Link, Head } from "@inertiajs/inertia-react";
 // import { useState } from "react/cjs/react.production.min";
@@ -10,6 +10,8 @@ export default function Dashboard(props) {
     const [kategori, setKategori] = useState("");
     const [penulis, setPenulis] = useState("");
     const [isNotif, setIsNotif] = useState(false);
+    const [image, setImage] = useState("");
+    // const [image, setImage] = useForm("");
 
     const handleSubmit = () => {
         const getData = {
@@ -17,6 +19,7 @@ export default function Dashboard(props) {
             deskripsi,
             kategori,
             penulis,
+            image,
         };
         Inertia.post("/simpanbuku", getData);
         setIsNotif(true);
@@ -24,13 +27,15 @@ export default function Dashboard(props) {
         setDeskripsi("");
         setKategori("");
         setPenulis("");
+        setImage("");
     };
 
+    console.log(setImage);
     useEffect(() => {
         if (!props.daftarBukuSaya) {
             Inertia.get("/simpanbuku");
         }
-        console.log("data ku", props);
+        // console.log("data ku", props);
         return;
     }, []);
 
@@ -108,6 +113,40 @@ export default function Dashboard(props) {
                             }
                             value={penulis}
                         />
+
+                        <div className="m-2 flex flex-row">
+                            <div className="m-2 shrink-0">
+                                <img
+                                    className="h-36 w-36 object-cover"
+                                    src="/images/default-placeholder.png"
+                                    alt="Current profile photo"
+                                />
+                            </div>
+                            <div className="flex flex-wrap justify-center items-center">
+                                <label className="block">
+                                    <span className="sr-only">
+                                        Choose Image
+                                    </span>
+                                    <input
+                                        type="file"
+                                        className="
+                                block w-full text-sm text-slate-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-full file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-violet-50 file:text-violet-700
+                                hover:file:bg-violet-100
+                                "
+                                        onChange={(image) =>
+                                            setImage(image.target.files)
+                                        }
+                                        name="image"
+                                        id="image"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+
                         <button
                             className="m-2 btn btn-primary"
                             onClick={() => handleSubmit()}
