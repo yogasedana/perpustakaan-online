@@ -3,6 +3,7 @@ import { Link } from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
 
 const Navbar = ({ user }) => {
+    // console.log(user);
     return (
         <div className="navbar bg-white shadow-md">
             <div className="flex-1">
@@ -24,7 +25,7 @@ const Navbar = ({ user }) => {
                         className="btn btn-ghost btn-circle avatar"
                     >
                         <div className="w-10 rounded-full">
-                            <img src="https://placeimg.com/80/80/people" />
+                            <img src="/images/user.jpg" />
                         </div>
                     </label>
                     <ul
@@ -53,7 +54,9 @@ const Navbar = ({ user }) => {
                                         as="button"
                                     >
                                         Dashboard
-                                        <span className="badge">New</span>
+                                        <span className="badge">
+                                            {user.role}
+                                        </span>
                                     </Link>
                                 </li>
                                 <li>
