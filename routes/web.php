@@ -27,6 +27,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         // });
     });
     
+    Route::get('/homepage', [DaftarBukuController::class, 'index'])->middleware(['auth', 'verified'])->name('homepage');
     Route::get('/dashboard', [DaftarBukuController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::get('/simpanbuku/create', [DaftarBukuController::class, 'create'])->middleware(['auth', 'verified'])->name('create.buku');
     Route::post('/simpanbuku', [DaftarBukuController::class, 'store'])->middleware(['auth', 'verified'])->name('show.simpanbuku');
