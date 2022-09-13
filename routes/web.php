@@ -34,6 +34,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/simpanbuku/edit', [DaftarBukuController::class, 'edit'])->middleware(['auth', 'verified'])->name('edit.buku');
     Route::post('/simpanbuku/update', [DaftarBukuController::class, 'update'])->middleware(['auth', 'verified'])->name('update.buku');
     Route::post('/simpanbuku/delete', [DaftarBukuController::class, 'destroy'])->middleware(['auth', 'verified'])->name('delete.buku');
+    Route::get('/detail', [DaftarBukuController::class, 'detail'])->middleware(['auth', 'verified'])->name('detail');
 // Route::get('/welcome', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),

@@ -134,4 +134,12 @@ class DaftarBukuController extends Controller
         // $inputGambar['url'] = $path;
         // return DaftarBuku::create($fileImage);
     }
+
+    public function detail(Request $request)
+    {
+        $tampilBuku = DaftarBuku::find($request->id);
+        return inertia::render('DetailBuku', [
+            'daftarBukuSaya'  => $tampilBuku,
+        ]);
+    }
 }

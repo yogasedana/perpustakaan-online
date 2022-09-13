@@ -1,3 +1,6 @@
+import React from "react";
+import { Link } from "@inertiajs/inertia-react";
+
 const isDaftarBuku = (data) => {
     return data.map((datas, i) => {
         return (
@@ -8,7 +11,17 @@ const isDaftarBuku = (data) => {
                 <div className="card-body">
                     <h2 className="card-title">
                         {datas.judul_buku}
-                        <div className="badge badge-secondary">NEW</div>
+                        <Link
+                            href={route("detail")}
+                            method="get"
+                            className="badge badge-secondary"
+                            as="button"
+                            data={{
+                                id: datas.id,
+                            }}
+                        >
+                            Detail
+                        </Link>
                     </h2>
                     <p>{datas.deskripsi}</p>
                     <div className="card-actions justify-end">
